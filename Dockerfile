@@ -5,10 +5,10 @@ FROM hearmeman/comfyui-flux-pulid:v1
 #    Você vai configurar isso nas variáveis de ambiente do seu endpoint no RunPod.
 ARG HUGGING_FACE_TOKEN
 
-# 3. Copia todos os seus arquivos (scripts, workflows) para dentro da imagem.
+# 3. Copia todos os seus arquivos (scripts, workflows) para dentro da imagem no diretório /app.
 COPY . /app
 
-# 4. Define o diretório de trabalho.
+# 4. Define o diretório de trabalho. Todos os comandos seguintes serão executados a partir daqui.
 WORKDIR /app
 
 # 5. ETAPA DE BUILD: Dá permissão e executa o script de INSTALAÇÃO.
@@ -17,5 +17,7 @@ RUN chmod +x install.sh start.sh && \
     /bin/bash ./install.sh
 
 # 6. ETAPA DE EXECUÇÃO: Define o comando que será executado quando um worker iniciar.
-EXPOSE 3000
+# Expõe a porta que o ComfyUI usará.
+EXPOSE 8000
+# Define o comando de inicialização.
 CMD ["/bin/bash", "./start.sh"]
